@@ -1,4 +1,4 @@
-import { FETCH_CATEGORIES, SELECT_CATEGORY } from '../actions/types';
+import { FETCH_CATEGORIES } from '../actions/types';
 
 const initialState = {
     items: [],
@@ -11,11 +11,6 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 items: action.payload.categories
-            }
-        case SELECT_CATEGORY:
-            return {
-                ...state,
-                items: action.payload
             }
         default:
             return state;

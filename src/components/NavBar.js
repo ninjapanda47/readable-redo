@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
-import { Navbar, Nav, NavDropdown } from 'react-bootstrap';
+import { Navbar, Nav, NavDropdown, Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { fetchCategories, selectCategory } from '../actions/categoryActions'
+import { fetchPosts } from '../actions/postActions'
+import { NavLink } from "react-router-dom"
 
 class NavBar extends Component {
 
@@ -11,16 +13,26 @@ class NavBar extends Component {
 
     selectCategory(category) {
         this.props.selectCategory(category)
-        console.log('clicked', category)
+    }
+
+    getAll() {
+        this.props.fetchPosts()
     }
 
     render() {
 
-        const categories = this.props.categories.map(category => (<Nav.Link key={category.name} href="#link" onClick={e => this.selectCategory(category.name)}>{category.name}</Nav.Link>))
+        const categories = this.props.categories.map(category => (<NavLink className="nav-link" to={`/category/${category.name}`} key={category.name} onClick={e => this.selectCategory(category.name)}>{category.name}</NavLink>))
         return (
             <div>
                 <Navbar expand="lg" className="navbar navbar-expand-lg navbar-dark bg-primary">
-                    <Navbar.Brand href="#home">Readable</Navbar.Brand>
+                    <NavLink to="/" onClick={e => this.getAll()}>
+                        <Navbar.Brand>Readable</Navbar.Brand>
+                    </NavLink>
+                    <Nav.Item>
+                        <NavLink to="/addPost">
+                            <Button variant="secondary" className="ml-2">New Post</Button>
+                        </NavLink>
+                    </Nav.Item>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
                         <Nav className="justify-content-end">
@@ -41,4 +53,4 @@ const mapStateToProps = state => ({
     categories: state.categories.items
 })
 
-export default connect(mapStateToProps, { fetchCategories, selectCategory })(NavBar)
+export default connect(mapStateToProps, { fetchCategories, selectCategory,fetchPosts })(NavBar)

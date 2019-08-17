@@ -1,4 +1,4 @@
-import { FETCH_CATEGORIES, SELECT_CATEGORY } from './types';
+import { FETCH_CATEGORIES, FETCH_POSTS } from './types';
 import * as readAPI from '../utils/api'
 
 export const fetchCategories = () => dispatch => {
@@ -12,9 +12,8 @@ export const fetchCategories = () => dispatch => {
 
 export const selectCategory = (category) => dispatch => {
     readAPI.getPostsForCategory(category).then(data => {
-        console.log(data)
         dispatch({
-            type: SELECT_CATEGORY,
+            type: FETCH_POSTS,
             payload: data
         })
     })

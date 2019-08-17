@@ -6,10 +6,6 @@ import { Container, Row } from 'react-bootstrap';
 
 class Posts extends Component {
 
-    componentDidMount() {
-        this.props.fetchPosts();
-    }
-
     render() {
         const cards = this.props.posts.map(post => (
             <div key={post.id} className="m-2">
