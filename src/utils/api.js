@@ -60,7 +60,8 @@ export const addPost = post =>
             "Content-Type": "application/json"
         },
         body: JSON.stringify(post)
-    }).then(res => res.json());
+    }).then(res => res.json())
+        .then(data => data);
 
 //delete post
 export const deletePost = id =>

@@ -1,15 +1,24 @@
 import React, { Component } from 'react';
-import { Card, Button } from 'react-bootstrap';
+import { Card, Button, Badge } from 'react-bootstrap';
 import { connect } from 'react-redux';
-import { fetchPosts } from '../actions/postActions'
+import { fetchPosts, deletePost } from '../actions/postActions'
 import { Container, Row } from 'react-bootstrap';
 
 class Posts extends Component {
 
+    deletePost(id) {
+        this.props.deletePost(id)
+    }
+
+    getCommentsById(id) {
+        console.log('check id', id)
+        // this.props.getCommentsById(id)
+    }
+
     render() {
         const cards = this.props.posts.map(post => (
             <div key={post.id} className="m-2">
-                <Card style={{ width: '18rem' }}>
+                <Card style={{ width: '18rem' }} className="center">
                     <Card.Body>
                         <Card.Title>{post.title}</Card.Title>
                         <Card.Subtitle className="mb-2 text-muted">By: {post.author}</Card.Subtitle>
@@ -17,9 +26,9 @@ class Posts extends Component {
                             {post.body}
                         </Card.Text>
                         <Button variant="primary" className="m-1 btn-sm">Edit</Button>
-                        <Button variant="secondary" className="m-1 btn-sm">Delete</Button>
+                        <Button variant="secondary" className="m-1 btn-sm" onClick={e => this.deletePost(post.id)}>Delete</Button>
                         <br></br>
-                        <a href="#" className="card-link">Comments</a>
+                        <h5><Badge className="mt-2 gray" onClick={e => this.getCommentsById(post.id)}>{post.commentCount} Comments</Badge></h5>
                     </Card.Body>
                 </Card>
             </div>
@@ -38,4 +47,4 @@ const mapStateToProps = state => ({
     posts: state.posts.items
 })
 
-export default connect(mapStateToProps, { fetchPosts })(Posts)
+export default connect(mapStateToProps, { fetchPosts, deletePost })(Posts)
