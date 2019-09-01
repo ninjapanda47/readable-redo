@@ -1,14 +1,12 @@
 import React, { Component } from 'react'
-import { Card, Button } from 'react-bootstrap';
+import { Container, Card, Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
-import { fetchPosts, deletePost } from '../actions/postActions'
-import { Container, Row } from 'react-bootstrap';
 
-class Comment extends Component {
+class Comments extends Component {
     render() {
         const cards = this.props.comments.map(comment => (
-            <div key={post.id} className="m-2">
-                <Card style={{ width: '18rem' }} className="center">
+            <div key={comment.id} className="m-2">
+                <Card className="center">
                     <Card.Body>
                         <Card.Title>{comment.title}</Card.Title>
                         <Card.Subtitle className="mb-2 text-muted">By: {comment.author}</Card.Subtitle>
@@ -16,18 +14,14 @@ class Comment extends Component {
                             {comment.body}
                         </Card.Text>
                         <Button variant="primary" className="m-1 btn-sm">Edit</Button>
-                        <Button variant="secondary" className="m-1 btn-sm" onClick={e => this.deletePost(post.id)}>Delete</Button>
-                        <br></br>
-                        <a href="#" className="card-link">Comments</a>
+                        <Button variant="secondary" className="m-1 btn-sm" onClick={e => this.deletePost(comment.id)}>Delete</Button>
                     </Card.Body>
                 </Card>
             </div>
         ))
         return (
             <Container fluid className="m-0">
-                <Row className="m-2">
-                    {cards}
-                </Row>
+                {cards}
             </Container>
         )
     }
@@ -37,4 +31,4 @@ const mapStateToProps = state => ({
     comments: state.comments.items
 })
 
-export default connect(mapStateToProps, { fetchPosts, deletePost })(Comments)
+export default connect(mapStateToProps)(Comments)

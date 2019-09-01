@@ -5,22 +5,17 @@ import { addPost } from '../actions/postActions'
 import { connect } from 'react-redux';
 const uuidv4 = require("uuid/v4");
 
-class Add extends Component {
+class AddComment extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            title: '',
             author: '',
-            category: '',
             body: ''
         };
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-    }
-    componentDidMount() {
-        this.props.fetchCategories();
     }
 
     handleChange(event) {
@@ -31,38 +26,28 @@ class Add extends Component {
 
     handleSubmit(event) {
         event.preventDefault();
-        const post = this.state
-        post.timestamp = Date.now();
-        post.id = uuidv4();
-        this.props.addPost(post)
+        const comment = this.state;
+        comment.timestamp = Date.now();
+        comment.id = uuidv4();
+        comment.parentId = this.props.parentId;
+        const id = this.props.parentId;
+        // this.props.addComment(id, comment);
         this.props.history.push("/")
     }
 
     render() {
 
-        const categories = this.props.categories.map(category => (<option key={category.name} value={category.name}>{category.name}</option>))
         return (
 
             <Container fluid className="m-0">
                 <Row className="mt-5">
                     <Card style={{ width: '75%' }} className="m-auto">
                         <Card.Body>
-                            <Card.Title className="center">Add Post</Card.Title>
+                            <Card.Title className="center">Add Comment</Card.Title>
                             <Form style={{ width: '100%' }} onSubmit={this.handleSubmit}>
-                                <Form.Group controlId="title" value={this.state.title} onChange={this.handleChange}>
-                                    <Form.Label>Title</Form.Label>
-                                    <Form.Control type="text" placeholder="Title" />
-                                </Form.Group>
                                 <Form.Group controlId="author" value={this.state.author} onChange={this.handleChange}>
                                     <Form.Label>Author</Form.Label>
                                     <Form.Control type="text" placeholder="Author" />
-                                </Form.Group>
-                                <Form.Group controlId="category" onChange={this.handleChange}>
-                                    <Form.Label>Category</Form.Label>
-                                    <Form.Control as="select">
-                                        <option>Select Category</option>
-                                        {categories}
-                                    </Form.Control>
                                 </Form.Group>
                                 <Form.Group controlId="body" value={this.state.body} onChange={this.handleChange}>
                                     <Form.Label>Post</Form.Label>
@@ -82,8 +67,7 @@ class Add extends Component {
     }
 }
 const mapStateToProps = state => ({
-    categories: state.categories.items,
-    post: state.posts.item
+    comments: state.comments.item
 })
 
-export default connect(mapStateToProps, { fetchCategories, addPost })(Add)
+export default connect(mapStateToProps, { fetchCategories, addPost })(AddComment)

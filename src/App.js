@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import './App.css';
 import NavBar from './components/NavBar'
-import Card from './components/Card'
-import Add from './components/Add'
+import Posts from './components/Posts'
+import AddPost from './components/AddPost'
+import AddComment from './components/AddComment'
 import { Route, Switch } from "react-router-dom";
 import { connect } from 'react-redux';
 import { fetchPosts } from './actions/postActions'
@@ -18,14 +19,15 @@ class App extends Component {
       <div className="App">
         <Route component={NavBar} />
         <Switch>
-          <Route path='/addPost' component={Add} />
+          <Route path='/addPost' component={AddPost} />
+          <Route path='/addComment' component={AddComment} />
           <Route
             exact
             path="/"
-            render={() => (<Card />)} />
+            component={Posts} />
           <Route
             path="/category"
-            render={() => (<Card />)} />
+            component={Posts} />
         </Switch>
       </div>
     );
