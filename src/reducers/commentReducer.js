@@ -1,4 +1,4 @@
-import { FETCH_COMMENTS } from '../actions/types';
+import { FETCH_COMMENTS, SET_CURRENT_COMMENT, ADD_COMMENT, DELETE_COMMENT } from '../actions/types';
 
 const initialState = {
     items: [],
@@ -12,6 +12,23 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 items: action.payload
+            }
+        case SET_CURRENT_COMMENT:
+            return {
+                ...state,
+                item: action.id
+            }
+        case ADD_COMMENT:
+            comments = [...state.items, action.payload]
+            return {
+                ...state,
+                items: comments
+            }
+        case DELETE_COMMENT:
+            comments = state.items.filter(comment => comment.id !== action.payload.id);
+            return {
+                ...state,
+                items: comments
             }
         default:
             return state;

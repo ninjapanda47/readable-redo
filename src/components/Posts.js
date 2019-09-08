@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Card, Button, Badge, Modal } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { fetchPosts, deletePost } from '../actions/postActions'
-import { fetchComments } from '../actions/commentActions'
+import { fetchComments, setCurrentComment, deleteComment } from '../actions/commentActions'
 import { Container, Row } from 'react-bootstrap';
 import Comments from './Comments'
 
@@ -12,7 +12,6 @@ class Posts extends Component {
         super(props);
         this.state = {
             showModal: false,
-            currentPostId: ''
         };
         this.setShowModal = this.setShowModal.bind(this);
     }
@@ -29,12 +28,15 @@ class Posts extends Component {
 
     getCommentsById(id) {
         this.props.fetchComments(id)
-        this.setState({ currentPostId: id })
+        this.props.setCurrentComment(id)
     }
 
-    addComment(id) {
-        console.log(id)
+    addComment() {
         this.props.history.push('/addComment')
+    }
+
+    deleteComment(id) {
+        this.props.deleteComment(id)
     }
 
     setShowModal(state) {
@@ -57,7 +59,9 @@ class Posts extends Component {
                   </Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        <Comments comments={this.props.comments} />
+                        <Comments comments={this.props.comments} deleteComment={id => {
+                            this.deleteComment(id);
+                        }} />
                     </Modal.Body>
                     <Modal.Footer className="d-block center">
                         <Button className="gray" onClick={props.onHide}>Close</Button>
@@ -99,7 +103,8 @@ class Posts extends Component {
 
 const mapStateToProps = state => ({
     posts: state.posts.items,
-    comments: state.comments.items
+    comments: state.comments.items,
+    comment: state.comments.item
 })
 
-export default connect(mapStateToProps, { fetchPosts, deletePost, fetchComments })(Posts)
+export default connect(mapStateToProps, { fetchPosts, deletePost, fetchComments, setCurrentComment, deleteComment })(Posts)

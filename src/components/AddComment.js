@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { Form, Button, Row, Container, Card } from 'react-bootstrap';
-import { fetchCategories } from '../actions/categoryActions'
-import { addPost } from '../actions/postActions'
+import { addComment } from '../actions/commentActions'
 import { connect } from 'react-redux';
 const uuidv4 = require("uuid/v4");
 
@@ -29,9 +28,8 @@ class AddComment extends Component {
         const comment = this.state;
         comment.timestamp = Date.now();
         comment.id = uuidv4();
-        comment.parentId = this.props.parentId;
-        const id = this.props.parentId;
-        // this.props.addComment(id, comment);
+        comment.parentId = this.props.comment;
+        this.props.addComment(comment);
         this.props.history.push("/")
     }
 
@@ -67,7 +65,7 @@ class AddComment extends Component {
     }
 }
 const mapStateToProps = state => ({
-    comments: state.comments.item
+    comment: state.comments.item
 })
 
-export default connect(mapStateToProps, { fetchCategories, addPost })(AddComment)
+export default connect(mapStateToProps, { addComment })(AddComment)

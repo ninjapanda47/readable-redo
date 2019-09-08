@@ -14,7 +14,9 @@ class Comments extends Component {
                             {comment.body}
                         </Card.Text>
                         <Button variant="primary" className="m-1 btn-sm">Edit</Button>
-                        <Button variant="secondary" className="m-1 btn-sm" onClick={e => this.deletePost(comment.id)}>Delete</Button>
+                        <Button variant="secondary" className="m-1 btn-sm" onClick={() => {
+                            this.props.deleteComment(comment.id);
+                        }}>Delete</Button>
                     </Card.Body>
                 </Card>
             </div>
