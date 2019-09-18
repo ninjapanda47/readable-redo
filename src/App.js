@@ -3,8 +3,9 @@ import './App.css';
 import NavBar from './components/NavBar'
 import Posts from './components/Posts'
 import AddPost from './components/AddPost'
+import EditPost from './components/EditPost'
 import AddComment from './components/AddComment'
-import Comments from './components/Comments'
+import EditComment from './components/EditComment'
 import { Route, Switch } from "react-router-dom";
 import { connect } from 'react-redux';
 import { fetchPosts } from './actions/postActions'
@@ -22,7 +23,8 @@ class App extends Component {
         <Switch>
           <Route path='/addPost' component={AddPost} />
           <Route path='/addComment' component={AddComment} />
-          <Route path='/comments' component={Comments} />
+          <Route path='/editPost' component={EditPost} />
+          <Route path='/editComment' component={EditComment} />
           <Route
             exact
             path="/"

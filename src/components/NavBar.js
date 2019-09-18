@@ -53,4 +53,4 @@ const mapStateToProps = state => ({
     categories: state.categories.items
 })
 
-export default connect(mapStateToProps, { fetchCategories, selectCategory,fetchPosts })(NavBar)
+export default connect(mapStateToProps, { fetchCategories, selectCategory, fetchPosts })(NavBar)

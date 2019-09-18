@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Card, Button, Badge, Modal } from 'react-bootstrap';
 import { connect } from 'react-redux';
-import { fetchPosts, deletePost } from '../actions/postActions'
+import { fetchPosts, deletePost, setCurrentPost } from '../actions/postActions'
 import { fetchComments, setCurrentComment, deleteComment } from '../actions/commentActions'
 import { Container, Row } from 'react-bootstrap';
 import Comments from './Comments'
@@ -16,8 +16,8 @@ class Posts extends Component {
         this.setShowModal = this.setShowModal.bind(this);
     }
 
-    componentDidUpdate(nextProps) {
-        if (nextProps.comments !== this.props.comments) {
+    componentDidUpdate(prevProps) {
+        if (prevProps.comments !== this.props.comments) {
             this.setState({ showModal: true })
         }
     }
@@ -26,9 +26,13 @@ class Posts extends Component {
         this.props.deletePost(id)
     }
 
+    editPost(id) {
+        this.props.setCurrentPost(id)
+        this.props.history.push('/editPost')
+    }
+
     getCommentsById(id) {
         this.props.fetchComments(id)
-        this.props.setCurrentComment(id)
     }
 
     addComment() {
@@ -37,6 +41,11 @@ class Posts extends Component {
 
     deleteComment(id) {
         this.props.deleteComment(id)
+    }
+
+    editComment(id) {
+        this.props.setCurrentComment(id)
+        this.props.history.push('/editComment')
     }
 
     setShowModal(state) {
@@ -60,8 +69,8 @@ class Posts extends Component {
                     </Modal.Header>
                     <Modal.Body>
                         <Comments comments={this.props.comments} deleteComment={id => {
-                            this.deleteComment(id);
-                        }} />
+                            this.deleteComment(id)
+                        }} editComment={id => { this.editComment(id) }} />
                     </Modal.Body>
                     <Modal.Footer className="d-block center">
                         <Button className="gray" onClick={props.onHide}>Close</Button>
@@ -80,7 +89,7 @@ class Posts extends Component {
                         <Card.Text>
                             {post.body}
                         </Card.Text>
-                        <Button variant="primary" className="m-1 btn-sm">Edit</Button>
+                        <Button variant="primary" className="m-1 btn-sm" onClick={e => this.editPost(post.id)}>Edit</Button>
                         <Button variant="secondary" className="m-1 btn-sm" onClick={e => this.deletePost(post.id)}>Delete</Button>
                         <br></br>
                         <h5><Badge className="mt-2 gray" onClick={e => this.getCommentsById(post.id)}>{post.commentCount} Comments</Badge></h5>
@@ -103,8 +112,9 @@ class Posts extends Component {
 
 const mapStateToProps = state => ({
     posts: state.posts.items,
+    post: state.posts.item,
     comments: state.comments.items,
     comment: state.comments.item
 })
 
-export default connect(mapStateToProps, { fetchPosts, deletePost, fetchComments, setCurrentComment, deleteComment })(Posts)
+export default connect(mapStateToProps, { fetchPosts, deletePost, fetchComments, setCurrentComment, deleteComment, setCurrentPost })(Posts)

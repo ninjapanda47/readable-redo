@@ -11,9 +11,11 @@ export const fetchComments = (id) => dispatch => {
 }
 
 export const setCurrentComment = (id) => dispatch => {
-    dispatch({
-        type: SET_CURRENT_COMMENT,
-        id: id
+    readAPI.getComment(id).then(data => {
+        dispatch({
+            type: SET_CURRENT_COMMENT,
+            payload: data
+        })
     })
 }
 

@@ -16,7 +16,7 @@ export default function (state = initialState, action) {
         case SET_CURRENT_COMMENT:
             return {
                 ...state,
-                item: action.id
+                item: action.payload
             }
         case ADD_COMMENT:
             comments = [...state.items, action.payload]

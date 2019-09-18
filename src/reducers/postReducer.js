@@ -1,4 +1,4 @@
-import { FETCH_POSTS, ADD_POST, DELETE_POST } from '../actions/types';
+import { FETCH_POSTS, ADD_POST, DELETE_POST, SET_CURRENT_POST, UPDATE_POST } from '../actions/types';
 
 const initialState = {
     items: [],
@@ -13,18 +13,28 @@ export default function (state = initialState, action) {
                 ...state,
                 items: action.payload
             }
-        case ADD_POST:
-            posts = [...state.items, action.payload]
-            return {
-                ...state,
-                items: posts
-            }
         case DELETE_POST:
             posts = state.items.filter(post => post.id !== action.payload.id);
             return {
                 ...state,
                 items: posts
-            };
+            }
+        case SET_CURRENT_POST:
+            return {
+                ...state,
+                item: action.payload
+            }
+        case UPDATE_POST:
+            posts = state.items.map(post => {
+                if (post.id === action.payload.id) {
+                    post = action.payload;
+                }
+                return post;
+            });
+            return {
+                ...state,
+                items: posts
+            }
         default:
             return state;
     }
