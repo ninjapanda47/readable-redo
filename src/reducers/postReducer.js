@@ -1,4 +1,4 @@
-import { FETCH_POSTS, ADD_POST, DELETE_POST, SET_CURRENT_POST, UPDATE_POST } from '../actions/types';
+import { FETCH_POSTS, DELETE_POST, SET_CURRENT_POST, UPDATE_POST, DECREASE_COMMENT_COUNT, INCREASE_COMMENT_COUNT, SORT_BY } from '../actions/types';
 
 const initialState = {
     items: [],
@@ -35,6 +35,49 @@ export default function (state = initialState, action) {
                 ...state,
                 items: posts
             }
+        case INCREASE_COMMENT_COUNT:
+            posts = state.items.map(post => {
+                if (post.id === action.payload) {
+                    post.commentCount++
+                }
+                return post
+            })
+            return {
+                ...state,
+                items: posts
+            }
+        case DECREASE_COMMENT_COUNT:
+            posts = state.items.map(post => {
+                if (post.id === action.payload) {
+                    post.commentCount--
+                }
+                return post
+            })
+            return {
+                ...state,
+                items: posts
+            }
+        case SORT_BY:
+            function byTime(a, b) {
+                return a.timestamp - b.timestamp;
+            }
+            function compareVotes(a, b) {
+                return a.voteScore - b.voteScore;
+            }
+            if (action.payload === 'timestamp') {
+                posts = state.items.slice().sort(byTime);
+                return {
+                    ...state,
+                    items: posts
+                }
+            } else if (action.payload === 'vote') {
+                posts = state.items.slice().sort(compareVotes);
+                return {
+                    ...state,
+                    items: posts
+                }
+            }
+            break
         default:
             return state;
     }

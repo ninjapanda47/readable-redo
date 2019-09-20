@@ -1,4 +1,4 @@
-import { FETCH_COMMENTS, SET_CURRENT_COMMENT, ADD_COMMENT, DELETE_COMMENT } from './types';
+import { FETCH_COMMENTS, SET_CURRENT_COMMENT, ADD_COMMENT, DELETE_COMMENT, UPDATE_COMMENT } from './types';
 import * as readAPI from '../utils/api'
 
 export const fetchComments = (id) => dispatch => {
@@ -35,4 +35,13 @@ export const deleteComment = (id) => dispatch => {
             payload: data
         })
     });
+}
+
+export const updateComment = (id, comment) => dispatch => {
+    readAPI.updateComment(id, comment).then(data => {
+        dispatch({
+            type: UPDATE_COMMENT,
+            payload: data
+        })
+    })
 }

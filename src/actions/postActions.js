@@ -1,4 +1,4 @@
-import { FETCH_POSTS, DELETE_POST, SET_CURRENT_POST, UPDATE_POST } from './types';
+import { FETCH_POSTS, DELETE_POST, SET_CURRENT_POST, UPDATE_POST, INCREASE_COMMENT_COUNT, DECREASE_COMMENT_COUNT, SORT_BY } from './types';
 import * as readAPI from '../utils/api'
 
 export const fetchPosts = () => dispatch => {
@@ -12,7 +12,6 @@ export const fetchPosts = () => dispatch => {
 
 export const addPost = (post) => dispatch => {
     readAPI.addPost(post).then(data => {
-        console.log('added:', data)
     });
 }
 
@@ -40,5 +39,27 @@ export const updatePost = (id, post) => dispatch => {
             type: UPDATE_POST,
             payload: data
         })
+    })
+}
+
+export const increaseCommentCount = (id) => dispatch => {
+    dispatch({
+        type: INCREASE_COMMENT_COUNT,
+        payload: id
+    })
+}
+
+export const decreaseCommentCount = (id) => dispatch => {
+    dispatch({
+        type: DECREASE_COMMENT_COUNT,
+        payload: id
+    })
+}
+
+export const sortBy = (type) => dispatch => {
+    console.log('sort by', type)
+    dispatch({
+        type: SORT_BY,
+        payload: type
     })
 }

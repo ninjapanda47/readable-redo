@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Card, Button, Badge, Modal } from 'react-bootstrap';
 import { connect } from 'react-redux';
-import { fetchPosts, deletePost, setCurrentPost } from '../actions/postActions'
+import { fetchPosts, deletePost, setCurrentPost, decreaseCommentCount } from '../actions/postActions'
 import { fetchComments, setCurrentComment, deleteComment } from '../actions/commentActions'
 import { Container, Row } from 'react-bootstrap';
 import Comments from './Comments'
@@ -33,6 +33,7 @@ class Posts extends Component {
 
     getCommentsById(id) {
         this.props.fetchComments(id)
+        this.props.setCurrentPost(id)
     }
 
     addComment() {
@@ -41,6 +42,7 @@ class Posts extends Component {
 
     deleteComment(id) {
         this.props.deleteComment(id)
+        this.props.decreaseCommentCount(this.props.post.id)
     }
 
     editComment(id) {
@@ -117,4 +119,4 @@ const mapStateToProps = state => ({
     comment: state.comments.item
 })
 
-export default connect(mapStateToProps, { fetchPosts, deletePost, fetchComments, setCurrentComment, deleteComment, setCurrentPost })(Posts)
+export default connect(mapStateToProps, { fetchPosts, deletePost, fetchComments, setCurrentComment, deleteComment, setCurrentPost, decreaseCommentCount })(Posts)

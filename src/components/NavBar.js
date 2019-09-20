@@ -1,11 +1,15 @@
 import React, { Component } from 'react';
-import { Navbar, Nav, NavDropdown, Button } from 'react-bootstrap';
+import { Navbar, Nav, Button, Dropdown, NavItem } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { fetchCategories, selectCategory } from '../actions/categoryActions'
-import { fetchPosts } from '../actions/postActions'
+import { fetchPosts, sortBy } from '../actions/postActions'
 import { NavLink } from "react-router-dom"
 
 class NavBar extends Component {
+
+    constructor(props) {
+        super(props);
+    }
 
     componentDidMount() {
         this.props.fetchCategories();
@@ -17,6 +21,11 @@ class NavBar extends Component {
 
     getAll() {
         this.props.fetchPosts()
+    }
+
+    sortPosts(e) {
+        this.props.sortBy(e)
+        console.log(this.props.posts)
     }
 
     render() {
@@ -37,10 +46,13 @@ class NavBar extends Component {
                     <Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
                         <Nav className="justify-content-end">
                             {categories}
-                            <NavDropdown title="Sort By" id="basic-nav-dropdown">
-                                <NavDropdown.Item href="#action/3.1">Vote</NavDropdown.Item>
-                                <NavDropdown.Item href="#action/3.2">Time Stamp</NavDropdown.Item>
-                            </NavDropdown>
+                            <Dropdown as={NavItem} id="dropdown-menu-align-right" alignRight onSelect={e => this.sortPosts(e)}>
+                                <Dropdown.Toggle>Sort by...</Dropdown.Toggle>
+                                <Dropdown.Menu>
+                                    <Dropdown.Item eventKey="vote">Vote Score</Dropdown.Item>
+                                    <Dropdown.Item eventKey="timestamp">Timestamp</Dropdown.Item>
+                                </Dropdown.Menu>
+                            </Dropdown>
                         </Nav>
                     </Navbar.Collapse>
                 </Navbar>
@@ -50,7 +62,8 @@ class NavBar extends Component {
 }
 
 const mapStateToProps = state => ({
-    categories: state.categories.items
+    categories: state.categories.items,
+    posts: state.posts.items
 })
 
-export default connect(mapStateToProps, { fetchCategories, selectCategory, fetchPosts })(NavBar)
+export default connect(mapStateToProps, { fetchCategories, selectCategory, fetchPosts, sortBy })(NavBar)

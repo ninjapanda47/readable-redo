@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Form, Button, Row, Container, Card } from 'react-bootstrap';
-import { addComment } from '../actions/commentActions'
+import { updateComment } from '../actions/commentActions'
 import { connect } from 'react-redux';
 
 class EditComment extends Component {
@@ -35,8 +35,10 @@ class EditComment extends Component {
         event.preventDefault();
         const comment = this.state;
         comment.timestamp = Date.now();
-        comment.parentId = this.props.comment;
-
+        comment.parentId = this.props.comment.parentId;
+        let id = this.props.comment.id
+        this.props.updateComment(id, comment)
+        this.props.history.goBack()
     }
 
     render() {
@@ -74,4 +76,4 @@ const mapStateToProps = state => ({
     comment: state.comments.item
 })
 
-export default connect(mapStateToProps, { addComment })(EditComment)
+export default connect(mapStateToProps, { updateComment })(EditComment)
