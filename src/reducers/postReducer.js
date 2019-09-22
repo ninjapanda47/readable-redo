@@ -1,4 +1,4 @@
-import { FETCH_POSTS, DELETE_POST, SET_CURRENT_POST, UPDATE_POST, DECREASE_COMMENT_COUNT, INCREASE_COMMENT_COUNT, SORT_BY } from '../actions/types';
+import { FETCH_POSTS, DELETE_POST, SET_CURRENT_POST, UPDATE_POST, DECREASE_COMMENT_COUNT, INCREASE_COMMENT_COUNT, SORT_BY, UPVOTE, DOWNVOTE } from '../actions/types';
 
 const initialState = {
     items: [],
@@ -78,6 +78,28 @@ export default function (state = initialState, action) {
                 }
             }
             break
+        case UPVOTE:
+            posts = state.items.map(post => {
+                if (post.id === action.payload) {
+                    post.voteScore++
+                }
+                return post
+            })
+            return {
+                ...state,
+                items: posts
+            }
+        case DOWNVOTE:
+            posts = state.items.map(post => {
+                if (post.id === action.payload) {
+                    post.voteScore--
+                }
+                return post
+            })
+            return {
+                ...state,
+                items: posts
+            }
         default:
             return state;
     }

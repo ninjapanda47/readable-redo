@@ -6,6 +6,7 @@ import * as serviceWorker from './serviceWorker';
 import { BrowserRouter } from "react-router-dom"
 import store from './store'
 import { Provider } from 'react-redux'
+import 'font-awesome/css/font-awesome.min.css';
 
 
 const rootElement = document.getElementById('root')

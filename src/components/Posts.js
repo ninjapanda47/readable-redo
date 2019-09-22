@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Card, Button, Badge, Modal } from 'react-bootstrap';
 import { connect } from 'react-redux';
-import { fetchPosts, deletePost, setCurrentPost, decreaseCommentCount } from '../actions/postActions'
+import { fetchPosts, deletePost, setCurrentPost, decreaseCommentCount, updateVote } from '../actions/postActions'
 import { fetchComments, setCurrentComment, deleteComment } from '../actions/commentActions'
 import { Container, Row } from 'react-bootstrap';
 import Comments from './Comments'
@@ -54,6 +54,11 @@ class Posts extends Component {
         this.setState({ showModal: state })
     }
 
+    updateVote(id, vote) {
+        this.props.updateVote(id, vote)
+    }
+
+
     render() {
 
         const CommentModal = (props) => {
@@ -94,7 +99,8 @@ class Posts extends Component {
                         <Button variant="primary" className="m-1 btn-sm" onClick={e => this.editPost(post.id)}>Edit</Button>
                         <Button variant="secondary" className="m-1 btn-sm" onClick={e => this.deletePost(post.id)}>Delete</Button>
                         <br></br>
-                        <h5><Badge className="mt-2 gray" onClick={e => this.getCommentsById(post.id)}>{post.commentCount} Comments</Badge></h5>
+                        <h5><Badge className="mt-2 mr-2 gray" onClick={e => this.getCommentsById(post.id)}>{post.commentCount} Comments</Badge>
+                            <Badge className="mt-2" variant="info"><i className="fa fa-thumbs-up mr-2" onClick={e => this.updateVote(post.id, "upVote")}></i>{post.voteScore}  Votes  <i className="fa fa-thumbs-down ml-2" onClick={e => this.updateVote(post.id, "downVote")}></i></Badge></h5>
                     </Card.Body>
                 </Card>
             </div>
@@ -119,4 +125,4 @@ const mapStateToProps = state => ({
     comment: state.comments.item
 })
 
-export default connect(mapStateToProps, { fetchPosts, deletePost, fetchComments, setCurrentComment, deleteComment, setCurrentPost, decreaseCommentCount })(Posts)
+export default connect(mapStateToProps, { fetchPosts, deletePost, fetchComments, setCurrentComment, deleteComment, setCurrentPost, decreaseCommentCount, updateVote })(Posts)

@@ -7,10 +7,6 @@ import { NavLink } from "react-router-dom"
 
 class NavBar extends Component {
 
-    constructor(props) {
-        super(props);
-    }
-
     componentDidMount() {
         this.props.fetchCategories();
     }
@@ -25,7 +21,6 @@ class NavBar extends Component {
 
     sortPosts(e) {
         this.props.sortBy(e)
-        console.log(this.props.posts)
     }
 
     render() {

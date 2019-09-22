@@ -1,4 +1,4 @@
-import { FETCH_POSTS, DELETE_POST, SET_CURRENT_POST, UPDATE_POST, INCREASE_COMMENT_COUNT, DECREASE_COMMENT_COUNT, SORT_BY } from './types';
+import { FETCH_POSTS, DELETE_POST, SET_CURRENT_POST, UPDATE_POST, INCREASE_COMMENT_COUNT, DECREASE_COMMENT_COUNT, SORT_BY, UPVOTE, DOWNVOTE } from './types';
 import * as readAPI from '../utils/api'
 
 export const fetchPosts = () => dispatch => {
@@ -57,9 +57,31 @@ export const decreaseCommentCount = (id) => dispatch => {
 }
 
 export const sortBy = (type) => dispatch => {
-    console.log('sort by', type)
     dispatch({
         type: SORT_BY,
         payload: type
+    })
+}
+
+export const updateVote = (id, vote) => dispatch =>
+    readAPI.updateVotePost(id, vote).then(response => {
+        const postid = response.id;
+        if (vote === "upVote") {
+            dispatch(upvote(postid));
+        } else {
+            dispatch(downvote(postid));
+        }
+    });
+
+const upvote = (id) => dispatch => {
+    dispatch({
+        type: UPVOTE,
+        payload: id
+    })
+}
+const downvote = (id) => dispatch => {
+    dispatch({
+        type: DOWNVOTE,
+        payload: id
     })
 }
