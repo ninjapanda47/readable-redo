@@ -15,6 +15,7 @@ class AddPost extends Component {
             category: '',
             body: '',
             validated: false,
+            titleLength: true
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -30,10 +31,20 @@ class AddPost extends Component {
         this.setState({ [name]: value });
     }
 
+    formIsValid = () => {
+        let isValid = true;
+        if (this.state.title.length > 50) {
+            this.setState({ titleLength: false })
+            isValid = false;
+        }
+        return isValid
+    }
+
     handleSubmit(event) {
         event.preventDefault();
         const form = event.currentTarget;
-        if (form.checkValidity() === false) {
+        const isValid = this.formIsValid()
+        if (form.checkValidity() === false || !isValid) {
             event.preventDefault();
             event.stopPropagation();
             this.setState({ validated: true })
@@ -66,10 +77,12 @@ class AddPost extends Component {
                             <Form noValidate validated={this.state.validated} style={{ width: '100%' }} onSubmit={this.handleSubmit}>
                                 <Form.Group controlId="title" value={this.state.title} onChange={this.handleChange}>
                                     <Form.Label>Title</Form.Label>
-                                    <Form.Control type="text" placeholder="Title" required />
-                                    <Form.Control.Feedback type="invalid">
+                                    <Form.Control isInvalid={!this.state.titleLength} type="text" placeholder="Title" required />
+                                    {this.state.titleLength ? (<Form.Control.Feedback type="invalid">
                                         Title is required.
-                                    </Form.Control.Feedback>
+                                    </Form.Control.Feedback>) : (<Form.Control.Feedback type="invalid">
+                                            The max number of character is 50.
+                                    </Form.Control.Feedback>)}
                                 </Form.Group>
                                 <Form.Group controlId="author" value={this.state.author} onChange={this.handleChange}>
                                     <Form.Label>Author</Form.Label>

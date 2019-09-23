@@ -11,7 +11,7 @@ class Posts extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            showModal: false,
+            showModal: false
         };
         this.setShowModal = this.setShowModal.bind(this);
     }
@@ -86,16 +86,19 @@ class Posts extends Component {
                 </Modal>
             );
         }
-
+        const maxLength = 200
         const cards = this.props.posts.map(post => (
             <div key={post.id} className="m-2">
-                <Card style={{ width: '18rem' }} className="center">
+                <Card style={{ width: '24rem', height: '20rem' }} className="center">
                     <Card.Body>
-                        <Card.Title>{post.title}</Card.Title>
-                        <Card.Subtitle className="mb-2 text-muted">By: {post.author}</Card.Subtitle>
-                        <Card.Text>
-                            {post.body}
-                        </Card.Text>
+                        <Card.Title style={{ height: '3rem' }}>{post.title}</Card.Title>
+                        <Card.Subtitle style={{ height: '2rem' }} className=" text-muted">By: {post.author}</Card.Subtitle>
+                        {
+                            post.body.length > maxLength ? (<Card.Text style={{ height: '7rem' }}>{`${post.body.substring(0, maxLength)}...`}</Card.Text>) : <Card.Text style={{ height: '7rem' }}>
+                                {post.body}
+                            </Card.Text>
+                        }
+                        <Button variant="btn btn-outline-info" className="m-1 btn-sm">Detail View</Button>
                         <Button variant="primary" className="m-1 btn-sm" onClick={e => this.editPost(post.id)}>Edit</Button>
                         <Button variant="secondary" className="m-1 btn-sm" onClick={e => this.deletePost(post.id)}>Delete</Button>
                         <br></br>
