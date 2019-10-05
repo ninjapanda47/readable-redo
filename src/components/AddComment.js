@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Form, Button, Row, Container, Card } from 'react-bootstrap';
 import { addComment } from '../actions/commentActions'
-import { increaseCommentCount } from '../actions/postActions'
+import { increaseCommentCount, setCurrentPost } from '../actions/postActions'
 import { connect } from 'react-redux';
 const uuidv4 = require("uuid/v4");
 
@@ -42,7 +42,7 @@ class AddComment extends Component {
             comment.parentId = this.props.post.id;
             this.props.addComment(comment);
             this.props.increaseCommentCount(this.props.post.id)
-            this.props.history.push("/")
+            this.props.history.goBack()
 
         }
     }
@@ -89,4 +89,4 @@ const mapStateToProps = state => ({
     post: state.posts.item
 })
 
-export default connect(mapStateToProps, { addComment, increaseCommentCount })(AddComment)
+export default connect(mapStateToProps, { addComment, increaseCommentCount, setCurrentPost })(AddComment)

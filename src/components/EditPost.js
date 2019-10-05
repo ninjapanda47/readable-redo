@@ -44,6 +44,10 @@ class EditPost extends Component {
         this.props.history.goBack()
     }
 
+    cancel() {
+        this.props.history.goBack()
+    }
+
     render() {
 
         return (
@@ -73,6 +77,9 @@ class EditPost extends Component {
                                 <div className="col text-center">
                                     <Button variant="primary" type="submit">
                                         Submit
+                    </Button>
+                                    <Button variant="secondary" className="m-1" onClick={e => this.cancel()} >
+                                        Cancel
                     </Button>
                                 </div>
                             </Form>

@@ -33,7 +33,8 @@ export default function (state = initialState, action) {
             });
             return {
                 ...state,
-                items: posts
+                items: posts,
+                item: action.payload
             }
         case INCREASE_COMMENT_COUNT:
             posts = state.items.map(post => {
@@ -42,6 +43,9 @@ export default function (state = initialState, action) {
                 }
                 return post
             })
+            if (state.item.id === action.payload) {
+                state.item.commentCount++
+            }
             return {
                 ...state,
                 items: posts
@@ -53,9 +57,12 @@ export default function (state = initialState, action) {
                 }
                 return post
             })
+            if (state.item.id === action.payload) {
+                state.item.commentCount--
+            }
             return {
                 ...state,
-                items: posts
+                items: posts,
             }
         case SORT_BY:
             function byTime(a, b) {
@@ -85,6 +92,9 @@ export default function (state = initialState, action) {
                 }
                 return post
             })
+            if (state.item.id === action.payload) {
+                state.item.voteScore++
+            }
             return {
                 ...state,
                 items: posts
@@ -96,10 +106,14 @@ export default function (state = initialState, action) {
                 }
                 return post
             })
+            if (state.item.id === action.payload) {
+                state.item.voteScore--
+            }
             return {
                 ...state,
                 items: posts
             }
+
         default:
             return state;
     }

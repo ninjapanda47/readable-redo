@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import NavBar from './components/NavBar'
 import Posts from './components/Posts'
+import Post from './components/Post'
 import AddPost from './components/AddPost'
 import EditPost from './components/EditPost'
 import AddComment from './components/AddComment'
@@ -25,6 +26,7 @@ class App extends Component {
           <Route path='/addComment' component={AddComment} />
           <Route path='/editPost' component={EditPost} />
           <Route path='/editComment' component={EditComment} />
+          <Route path='/:category/:id' component={Post}></Route>
           <Route
             exact
             path="/"

@@ -41,6 +41,10 @@ class EditComment extends Component {
         this.props.history.goBack()
     }
 
+    cancel() {
+        this.props.history.goBack()
+    }
+
     render() {
 
         return (
@@ -60,8 +64,11 @@ class EditComment extends Component {
                                     <Form.Control as="textarea" rows="5" value={this.state.body} onChange={this.handleChange} />
                                 </Form.Group>
                                 <div className="col text-center">
-                                    <Button variant="primary" type="submit">
+                                    <Button variant="primary" className="m-1" type="submit">
                                         Submit
+                    </Button>
+                                    <Button variant="secondary" className="m-1" onClick={e => this.cancel()} >
+                                        Cancel
                     </Button>
                                 </div>
                             </Form>
