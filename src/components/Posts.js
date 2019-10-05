@@ -33,7 +33,7 @@ class Posts extends Component {
 
     getPost(id, category) {
         this.props.setCurrentPost(id)
-        this.props.history.push("/" + category + "/" + id);
+        this.props.history.push("/category/" + category + "/" + id);
     }
 
     getCommentsById(id) {

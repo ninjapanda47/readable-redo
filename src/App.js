@@ -26,7 +26,7 @@ class App extends Component {
           <Route path='/addComment' component={AddComment} />
           <Route path='/editPost' component={EditPost} />
           <Route path='/editComment' component={EditComment} />
-          <Route path='/:category/:id' component={Post}></Route>
+          <Route path='/category/:category/:id' component={Post}></Route>
           <Route
             exact
             path="/"
